@@ -1,0 +1,8 @@
+RULE throw exception
+CLASS me.chanjar.msat.productprice.FakeProductPriceRepository
+METHOD listAll
+AT ENTRY
+IF TRUE
+DO debug("throw RuntimeException here"),
+   throw new RuntimeException("Product Repository Error!")
+ENDRULE
