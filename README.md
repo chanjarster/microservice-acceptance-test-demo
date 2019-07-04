@@ -11,7 +11,7 @@
 1. 自动化、可重复、易于和CI工具集成
 3. 能够在测试运行时修改服务的行为
 
-下面将介绍如何利用 [Docker [1]][1]、[Cucumber [2]][2]、[Byteman [3]][3]、[Fabric8 docker-maven-plugin [4]][4]、[Spotify dockerfile-maven-plugin [5]][5]达成以上目标。
+下面将介绍如何利用 [Docker [1]](https://www.docker.com/)、[Cucumber [2]](https://cucumber.io/)、[Byteman [3]](https://byteman.jboss.org/)、[Fabric8 docker-maven-plugin [4]](https://dmp.fabric8.io/)、[Spotify dockerfile-maven-plugin [5]](https://github.com/spotify/dockerfile-maven)达成以上目标。
 
 ## Demo介绍
 
@@ -70,7 +70,7 @@ http://product-service-host[:port]/products
 
 ### 构建Docker Image
 
-为了能够便利地搭建测试环境，我们需要先为Product Servcie和Product Price Service构建镜像。利用[Spotify dockerfile-maven-plugin [5]][5]可以很方便地做到这一点，它没有引入额外的概念，只要你会写[Dockerfile [6]][6]就行。我们在Product Service和Producer Price Service的`pom.xml`中添加类似以下的配置：
+为了能够便利地搭建测试环境，我们需要先为Product Servcie和Product Price Service构建镜像。利用[Spotify dockerfile-maven-plugin [5]](https://github.com/spotify/dockerfile-maven)可以很方便地做到这一点，它没有引入额外的概念，只要你会写[Dockerfile [6]](https://docs.docker.com/engine/reference/builder/)就行。我们在Product Service和Producer Price Service的`pom.xml`中添加类似以下的配置：
 
 ```xml
 <plugin>
@@ -111,7 +111,7 @@ EXPOSE 8080
 
 ### 编写验收测试脚本
 
-我们独立于Product Service和Product Price Service创建了一个Maven项目，然后使用[Cucumber [2]][2]编写了以下两个场景的验收测试脚本：
+我们独立于Product Service和Product Price Service创建了一个Maven项目，然后使用[Cucumber [2]](https://cucumber.io/)编写了以下两个场景的验收测试脚本：
 
 正常情况：
 
@@ -153,7 +153,7 @@ Feature: List product information with price
       | animal-3 | fox  | what does the fox say? |       |
 ```
 
-注意到我们在这里使用了[Byteman [3]][3]注入了异常情况给Product Price Service：
+注意到我们在这里使用了[Byteman [3]](https://byteman.jboss.org/)注入了异常情况给Product Price Service：
 
 ```txt
 Given Install the byteman script product_price_exception.btm to Product Price Service
@@ -217,11 +217,11 @@ public class Stepdefs {
 }
 ```
 
-关于[Cucumber [2]][2]和[Byteman [3]][3]的更详细的介绍可以见[ServiceComb Saga使用Cucumber做验收测试源码分析 [7]][7]。
+关于[Cucumber [2]](https://cucumber.io/)和[Byteman [3]](https://byteman.jboss.org/)的更详细的介绍可以见[ServiceComb Saga使用Cucumber做验收测试源码分析 [7]](https://servicecomb.apache.org/cn/docs/saga_with_cucumber/)。
 
 ### 自动化搭建测试环境
 
-我们希望能够在Maven的`integration-test` 阶段搭建测试环境、执行上述验收测试脚本。在`pom.xml`中添加到[Fabric8 docker-maven-plugin [4]][4]：
+我们希望能够在Maven的`integration-test` 阶段搭建测试环境、执行上述验收测试脚本。在`pom.xml`中添加到[Fabric8 docker-maven-plugin [4]](https://dmp.fabric8.io/)：
 
 ```xml
 <plugin>
@@ -299,29 +299,26 @@ public class Stepdefs {
    2. 执行验收测试脚本
    3. 销毁上述创建的容器
 
-如果你想自己试试可以下载[本项目源码[8]][8]。
+如果你想自己试试可以下载[本项目源码[8]](https://github.com/chanjarster/microservice-acceptance-test-demo)。
 
-欢迎开发者朋友们加入ServiceComb社区，一起做些有意思的事情。[加入社区方法[9]][9]
+欢迎开发者朋友们加入ServiceComb社区，一起做些有意思的事情。[加入社区方法[9]](http://servicecomb.incubator.apache.org/cn/docs/join_the_community/)
 
 ## 参考资料
 
-
 [1] Docker https://www.docker.com/
-[2] Cucumber https://cucumber.io/
-[3] Byteman  https://byteman.jboss.org/
-[4] Fabric8 docker-maven-plugin  https://dmp.fabric8.io/
-[5] Spotify dockerfile-maven-plugin https://github.com/spotify/dockerfile-maven
-[6] Dockerfile https://docs.docker.com/engine/reference/builder/
-[7] ServiceComb Saga使用Cucumber做验收测试源码分析 https://servicecomb.apache.org/cn/docs/saga_with_cucumber/
-[8] 本项目源码 https://github.com/chanjarster/microservice-acceptance-test-demo
-[9] 加入Servicecomb社区  http://servicecomb.incubator.apache.org/cn/docs/join_the_community/
 
-[1]: https://www.docker.com/
-[2]: https://cucumber.io/
-[3]: https://byteman.jboss.org/
-[4]: https://dmp.fabric8.io/
-[5]: https://github.com/spotify/dockerfile-maven
-[6]: https://docs.docker.com/engine/reference/builder/
-[7]: https://servicecomb.apache.org/cn/docs/saga_with_cucumber/
-[8]: https://github.com/chanjarster/microservice-acceptance-test-demo
-[9]: http://servicecomb.incubator.apache.org/cn/docs/join_the_community/
+[2] Cucumber https://cucumber.io/
+
+[3] Byteman  https://byteman.jboss.org/
+
+[4] Fabric8 docker-maven-plugin  https://dmp.fabric8.io/
+
+[5] Spotify dockerfile-maven-plugin https://github.com/spotify/dockerfile-maven
+
+[6] Dockerfile https://docs.docker.com/engine/reference/builder/
+
+[7] ServiceComb Saga使用Cucumber做验收测试源码分析 https://servicecomb.apache.org/cn/docs/saga_with_cucumber/
+
+[8] 本项目源码 https://github.com/chanjarster/microservice-acceptance-test-demo
+
+[9] 加入Servicecomb社区  http://servicecomb.incubator.apache.org/cn/docs/join_the_community/
